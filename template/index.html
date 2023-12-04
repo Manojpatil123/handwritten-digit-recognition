@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Handwritten Digit Recognition</title>
+    
+    
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js"></script>
+</head>
+<body>
+    <h1 style="text-align: center;">Handwritten Digit Recognition</h1>
+    <h4 style="text-align: center ;color: #f6efef;">Draw any number from 0 - 9 in canvas </h4>
+    <div id="canvas-container"></div>z
+    <div style="text-align: center;">
+        <button onclick="classifyDigit()">Classify Digit</button>
+        <button onclick="clearCanvas()">Clear</button>
+        <div id="result"></div>
+    </div>
+
+    <script>
+        let canvas;
+        let resultDiv;
+
+        function setup() {
+            let canvasContainer = document.getElementById('canvas-container');
+            canvas = createCanvas(280, 280);
+            canvas.mousePressed(startDrawing);
+            canvas.mouseReleased(stopDrawing);
+            canvas.parent(canvasContainer);
+         
+            resultDiv = select('#result');
+        }
+
+        function draw() {
+            if (mouseIsPressed) {
+                strokeWeight(10);
+                stroke(255);
+                line(pmouseX, pmouseY, mouseX, mouseY);
+            }
+        }
+
+        function startDrawing() {
+            clear();
+        }
+
+        function stopDrawing() {
+            loadPixels();
+            classifyDigit();
+        }
+
+        function classifyDigit() {
+            let imgData = canvas.canvas.toDataURL();
+            let base64Image = imgData.replace(/^data:image\/(png|jpg|jpeg);base64,/, "");
+
+            fetch('/classify', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': '1234567890'
+                },
+                body: JSON.stringify({ image: base64Image })
+            })
+            .then(response => response.json())
+            .then(data => {
+                resultDiv.html('Predicted Digit: ' + data.prediction);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        }
+
+        function clearCanvas() {
+            clear();
+            resultDiv.html('');
+        }
+    </script>
+</body>
+</html>

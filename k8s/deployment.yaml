@@ -1,0 +1,39 @@
+# deployment.yaml
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: handwritten-digit-service
+  labels:
+    app: handwritten-digit-service
+spec:
+  replicas: 1  # Number of replicas/instances you want to run
+  selector:
+    matchLabels:
+      app: handwritten-digit-service
+  template:
+    metadata:
+      labels:
+        app: handwritten-digit-service
+    spec:
+      containers:
+        - name: handwritten-digit-service
+          image: <YOUR_IMAGE>:latest  # Replace with your Docker image
+          ports:
+            - containerPort: <YOUR_PORT>  # Replace with your container port
+          env:
+            # Add environment variables if needed
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: handwritten-digit-service
+spec:
+  selector:
+    app: handwritten-digit-service
+  ports:
+    - protocol: TCP
+      port: 80  # Your service port
+      targetPort: <YOUR_PORT>  # Replace with your container port
+  type: NodePort  # Use NodePort or LoadBalancer as needed

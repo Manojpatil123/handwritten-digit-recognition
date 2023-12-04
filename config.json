@@ -1,0 +1,9 @@
+{
+    "database": {
+      "host": "localhost",
+      "user": "root",
+      "password": "12345",
+      "database": "logs"
+    },
+    "secret_key": "1234567890"
+}
