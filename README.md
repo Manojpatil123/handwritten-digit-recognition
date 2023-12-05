@@ -39,7 +39,7 @@ Start the Flask server:
 python app.py
 ```
 
-Access the service at http://localhost:5000 in your browser or via API requests.
+Access the service at http://localhost:80 in your browser or via API requests.
 
 # Building and Deploying with Docker and Kubernetes
 
