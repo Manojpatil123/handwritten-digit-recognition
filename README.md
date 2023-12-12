@@ -1,4 +1,4 @@
-# Handwritten Digit Recognition Web Service
+# Handwritten Digit Recognition Web Service.
 
 This repository contains a Handwritten Digit Recognition service using a trained model on mnist dataset and a Flask-based web service, mysql database configure, deployment option of docker and Kubernetes.
 
